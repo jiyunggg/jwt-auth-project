@@ -2,10 +2,13 @@ package com.baro.jwt_auth.user.service;
 
 import com.baro.jwt_auth.common.exception.CustomException;
 import com.baro.jwt_auth.common.response.ErrorCode;
+import com.baro.jwt_auth.user.dto.request.LoginRequestDto;
 import com.baro.jwt_auth.user.dto.request.SignupRequestDto;
+import com.baro.jwt_auth.user.dto.response.LoginResponseDto;
 import com.baro.jwt_auth.user.dto.response.SignupResponseDto;
 import com.baro.jwt_auth.user.entity.UserEntity;
 import com.baro.jwt_auth.user.entity.UserRoleEnum;
+import com.baro.jwt_auth.user.jwt.JwtUtil;
 import com.baro.jwt_auth.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     // 회원가입
     @Transactional
@@ -38,5 +42,25 @@ public class UserService {
 
         userRepository.save(user);
         return SignupResponseDto.of(user);
+    }
+
+    // 로그인
+    public LoginResponseDto login(LoginRequestDto reqDto) {
+        String reqUsername = reqDto.getUsername();
+        String reqPassword = reqDto.getPassword();
+
+        // 유저 조회
+        UserEntity user = userRepository.findByUsernameAndIsDeletedFalse(reqUsername)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        // 비밀번호 체크
+        if (!passwordEncoder.matches(reqPassword, user.getPassword())) {
+            throw new CustomException(ErrorCode.INVALID_CREDENTIALS);
+        }
+
+        // JWT 토큰 생성
+        String token = jwtUtil.createToken(user.getUsername(), user.getRole());
+
+        return LoginResponseDto.of(user, token);
     }
 }
