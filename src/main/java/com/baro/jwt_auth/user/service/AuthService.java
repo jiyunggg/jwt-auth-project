@@ -5,6 +5,7 @@ import com.baro.jwt_auth.common.response.ErrorCode;
 import com.baro.jwt_auth.user.dto.request.SignupRequestDto;
 import com.baro.jwt_auth.user.dto.response.SignupResponseDto;
 import com.baro.jwt_auth.user.entity.UserEntity;
+import com.baro.jwt_auth.user.entity.UserRoleEnum;
 import com.baro.jwt_auth.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +33,7 @@ public class AuthService {
                 .username(username)
                 .password(password)
                 .nickname(reqDto.getUser().getNickname())
-                .role(reqDto.getUser().getRole())
+                .role(UserRoleEnum.USER)
                 .build();
 
         userRepository.save(user);

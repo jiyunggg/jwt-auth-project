@@ -1,6 +1,5 @@
 package com.baro.jwt_auth.user.dto.request;
 
-import com.baro.jwt_auth.user.entity.UserRoleEnum;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -31,8 +30,5 @@ public class SignupRequestDto {
 
         @NotBlank(message = "사용할 닉네임을 입력해주세요.")
         private String nickname;
-
-        @NotBlank(message = "권한을 입력해주세요.(USER or ADMIN)")
-        private UserRoleEnum role;
     }
 }
