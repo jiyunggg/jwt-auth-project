@@ -1,4 +1,4 @@
-package com.baro.jwt_auth.security;
+package com.baro.jwt_auth.user.security;
 
 import com.baro.jwt_auth.user.entity.UserEntity;
 import com.baro.jwt_auth.user.entity.UserRoleEnum;
@@ -39,6 +39,12 @@ public class UserDetailsImpl implements UserDetails {
         authorities.add(simpleGrantedAuthority);
 
         return authorities;
+    }
+
+    // 컬렉션에 해당 권한이 있는지 체크
+    public boolean hasRole(UserRoleEnum role) {
+        return getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals(role.getAuthority()));
     }
 
     @Override

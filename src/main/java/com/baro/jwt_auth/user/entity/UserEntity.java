@@ -1,17 +1,14 @@
 package com.baro.jwt_auth.user.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
-@Builder
+@Builder(access = AccessLevel.PRIVATE)
 public class UserEntity extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,4 +26,17 @@ public class UserEntity extends BaseEntity{
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
+
+    public static UserEntity createUser(String username, String password, String nickname) {
+        return UserEntity.builder()
+                .username(username)
+                .password(password)
+                .nickname(nickname)
+                .role(UserRoleEnum.USER)
+                .build();
+    }
+
+    public void updateAdminRole() {
+        this.role = UserRoleEnum.ADMIN;
+    }
 }

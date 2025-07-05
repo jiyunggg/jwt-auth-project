@@ -1,6 +1,6 @@
 package com.baro.jwt_auth.user.jwt;
 
-import com.baro.jwt_auth.security.UserDetailsServiceImpl;
+import com.baro.jwt_auth.user.security.UserDetailsServiceImpl;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

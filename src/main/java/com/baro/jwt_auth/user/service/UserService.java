@@ -6,10 +6,12 @@ import com.baro.jwt_auth.user.dto.request.LoginRequestDto;
 import com.baro.jwt_auth.user.dto.request.SignupRequestDto;
 import com.baro.jwt_auth.user.dto.response.LoginResponseDto;
 import com.baro.jwt_auth.user.dto.response.SignupResponseDto;
+import com.baro.jwt_auth.user.dto.response.UserRoleUpdateResponseDto;
 import com.baro.jwt_auth.user.entity.UserEntity;
 import com.baro.jwt_auth.user.entity.UserRoleEnum;
 import com.baro.jwt_auth.user.jwt.JwtUtil;
 import com.baro.jwt_auth.user.repository.UserRepository;
+import com.baro.jwt_auth.user.security.UserDetailsImpl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,20 +27,15 @@ public class UserService {
     // 회원가입
     @Transactional
     public SignupResponseDto signup(SignupRequestDto reqDto) {
-        String username = reqDto.getUser().getUsername();
-        String password = passwordEncoder.encode(reqDto.getUser().getPassword()); // 비밀번호 암호화
+        String username = reqDto.getUsername();
+        String password = passwordEncoder.encode(reqDto.getPassword()); // 비밀번호 암호화
 
         // ID 중복 체크
         if(userRepository.existsByUsernameAndIsDeletedFalse(username)) {
             throw new CustomException(ErrorCode.USER_ALREADY_EXISTS);
         }
 
-        UserEntity user = UserEntity.builder()
-                .username(username)
-                .password(password)
-                .nickname(reqDto.getUser().getNickname())
-                .role(UserRoleEnum.USER)
-                .build();
+        UserEntity user = UserEntity.createUser(username, password, reqDto.getNickname());
 
         userRepository.save(user);
         return SignupResponseDto.of(user);
@@ -50,8 +47,7 @@ public class UserService {
         String reqPassword = reqDto.getPassword();
 
         // 유저 조회
-        UserEntity user = userRepository.findByUsernameAndIsDeletedFalse(reqUsername)
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+        UserEntity user = getActiveUserByUsername(reqUsername);
 
         // 비밀번호 체크
         if (!passwordEncoder.matches(reqPassword, user.getPassword())) {
@@ -63,4 +59,30 @@ public class UserService {
 
         return LoginResponseDto.of(user, token);
     }
+
+    // 관리자 권한 부여
+    @Transactional
+    public UserRoleUpdateResponseDto grantAdminRole(Long userId, UserDetailsImpl loggedInUser) {
+        // 관리자 여부 확인
+        if (!loggedInUser.hasRole(UserRoleEnum.ADMIN)) {
+            throw new CustomException(ErrorCode.ACCESS_DENIED);
+        }
+
+        UserEntity user = getActiveUserById(userId);
+        user.updateAdminRole();
+
+        return UserRoleUpdateResponseDto.of(user);
+    }
+
+    // 유저 조회 메서드 분리
+    private UserEntity getActiveUserByUsername(String username) {
+        return userRepository.findByUsernameAndIsDeletedFalse(username)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+    }
+
+    private UserEntity getActiveUserById(Long userId) {
+        return userRepository.findByIdAndIsDeletedFalse(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+    }
+
 }

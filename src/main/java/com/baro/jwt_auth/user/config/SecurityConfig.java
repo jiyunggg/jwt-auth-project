@@ -1,4 +1,4 @@
-package com.baro.jwt_auth.config;
+package com.baro.jwt_auth.user.config;
 
 import com.baro.jwt_auth.user.jwt.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/users/signup", "/api/users/login").permitAll()
+                        .requestMatchers("/api/signup", "/api/login").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
