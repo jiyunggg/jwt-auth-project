@@ -1,4 +1,4 @@
-package com.baro.jwt_auth.config;
+package com.baro.jwt_auth.user.config;
 
 import com.baro.jwt_auth.user.jwt.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
