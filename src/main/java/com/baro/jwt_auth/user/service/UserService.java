@@ -35,12 +35,7 @@ public class UserService {
             throw new CustomException(ErrorCode.USER_ALREADY_EXISTS);
         }
 
-        UserEntity user = UserEntity.builder()
-                .username(username)
-                .password(password)
-                .nickname(reqDto.getUser().getNickname())
-                .role(UserRoleEnum.USER)
-                .build();
+        UserEntity user = UserEntity.createUser(username, password, reqDto.getUser().getNickname());
 
         userRepository.save(user);
         return SignupResponseDto.of(user);
@@ -69,7 +64,7 @@ public class UserService {
     // 관리자 권한 부여
     @Transactional
     public UserRoleUpdateResponseDto grantAdminRole(Long userId, UserDetailsImpl loggedInUser) {
-        // 관리자 권한 체크
+        // 관리자 여부 확인
         if (!loggedInUser.hasRole(UserRoleEnum.ADMIN)) {
             throw new CustomException(ErrorCode.ACCESS_DENIED);
         }
