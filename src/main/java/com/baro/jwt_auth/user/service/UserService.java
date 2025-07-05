@@ -47,8 +47,7 @@ public class UserService {
         String reqPassword = reqDto.getPassword();
 
         // 유저 조회
-        UserEntity user = userRepository.findByUsernameAndIsDeletedFalse(reqUsername)
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+        UserEntity user = getActiveUserByUsername(reqUsername);
 
         // 비밀번호 체크
         if (!passwordEncoder.matches(reqPassword, user.getPassword())) {
@@ -69,11 +68,21 @@ public class UserService {
             throw new CustomException(ErrorCode.ACCESS_DENIED);
         }
 
-        UserEntity user = userRepository.findByIdAndIsDeletedFalse(userId)
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-
+        UserEntity user = getActiveUserById(userId);
         user.updateAdminRole();
 
         return UserRoleUpdateResponseDto.of(user);
     }
+
+    // 유저 조회 메서드 분리
+    private UserEntity getActiveUserByUsername(String username) {
+        return userRepository.findByUsernameAndIsDeletedFalse(username)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+    }
+
+    private UserEntity getActiveUserById(Long userId) {
+        return userRepository.findByIdAndIsDeletedFalse(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+    }
+
 }
