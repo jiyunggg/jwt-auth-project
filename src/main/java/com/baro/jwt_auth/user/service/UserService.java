@@ -6,10 +6,12 @@ import com.baro.jwt_auth.user.dto.request.LoginRequestDto;
 import com.baro.jwt_auth.user.dto.request.SignupRequestDto;
 import com.baro.jwt_auth.user.dto.response.LoginResponseDto;
 import com.baro.jwt_auth.user.dto.response.SignupResponseDto;
+import com.baro.jwt_auth.user.dto.response.UserRoleUpdateResponseDto;
 import com.baro.jwt_auth.user.entity.UserEntity;
 import com.baro.jwt_auth.user.entity.UserRoleEnum;
 import com.baro.jwt_auth.user.jwt.JwtUtil;
 import com.baro.jwt_auth.user.repository.UserRepository;
+import com.baro.jwt_auth.user.security.UserDetailsImpl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -62,5 +64,21 @@ public class UserService {
         String token = jwtUtil.createToken(user.getUsername(), user.getRole());
 
         return LoginResponseDto.of(user, token);
+    }
+
+    // 관리자 권한 부여
+    @Transactional
+    public UserRoleUpdateResponseDto grantAdminRole(Long userId, UserDetailsImpl loggedInUser) {
+        // 관리자 권한 체크
+        if (!loggedInUser.hasRole(UserRoleEnum.ADMIN)) {
+            throw new CustomException(ErrorCode.ACCESS_DENIED);
+        }
+
+        UserEntity user = userRepository.findByIdAndIsDeletedFalse(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        user.updateAdminRole();
+
+        return UserRoleUpdateResponseDto.of(user);
     }
 }

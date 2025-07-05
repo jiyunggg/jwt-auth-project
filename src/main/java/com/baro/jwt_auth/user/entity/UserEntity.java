@@ -29,4 +29,8 @@ public class UserEntity extends BaseEntity{
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
+
+    public void updateAdminRole() {
+        this.role = UserRoleEnum.ADMIN;
+    }
 }

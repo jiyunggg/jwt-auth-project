@@ -41,6 +41,12 @@ public class UserDetailsImpl implements UserDetails {
         return authorities;
     }
 
+    // 컬렉션에 해당 권한이 있는지 체크
+    public boolean hasRole(UserRoleEnum role) {
+        return getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals(role.getAuthority()));
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
