@@ -27,15 +27,15 @@ public class UserService {
     // 회원가입
     @Transactional
     public SignupResponseDto signup(SignupRequestDto reqDto) {
-        String username = reqDto.getUser().getUsername();
-        String password = passwordEncoder.encode(reqDto.getUser().getPassword()); // 비밀번호 암호화
+        String username = reqDto.getUsername();
+        String password = passwordEncoder.encode(reqDto.getPassword()); // 비밀번호 암호화
 
         // ID 중복 체크
         if(userRepository.existsByUsernameAndIsDeletedFalse(username)) {
             throw new CustomException(ErrorCode.USER_ALREADY_EXISTS);
         }
 
-        UserEntity user = UserEntity.createUser(username, password, reqDto.getUser().getNickname());
+        UserEntity user = UserEntity.createUser(username, password, reqDto.getNickname());
 
         userRepository.save(user);
         return SignupResponseDto.of(user);
