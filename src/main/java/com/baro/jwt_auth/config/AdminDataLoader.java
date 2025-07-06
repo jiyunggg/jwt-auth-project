@@ -1,4 +1,4 @@
-package com.baro.jwt_auth.user.config;
+package com.baro.jwt_auth.config;
 
 import com.baro.jwt_auth.user.entity.UserEntity;
 import com.baro.jwt_auth.user.entity.UserRoleEnum;

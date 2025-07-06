@@ -1,8 +1,8 @@
-package com.baro.jwt_auth.user.config;
+package com.baro.jwt_auth.config;
 
-import com.baro.jwt_auth.common.response.ErrorCode;
-import com.baro.jwt_auth.common.response.ResErrorDTO;
-import com.baro.jwt_auth.user.jwt.JwtAuthFilter;
+import com.baro.jwt_auth.common.exception.ErrorCode;
+import com.baro.jwt_auth.common.exception.dto.ResErrorDTO;
+import com.baro.jwt_auth.security.jwt.JwtAuthFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

@@ -1,7 +1,7 @@
 package com.baro.jwt_auth.user.service;
 
 import com.baro.jwt_auth.common.exception.CustomException;
-import com.baro.jwt_auth.common.response.ErrorCode;
+import com.baro.jwt_auth.common.exception.ErrorCode;
 import com.baro.jwt_auth.user.dto.request.LoginRequestDto;
 import com.baro.jwt_auth.user.dto.request.SignupRequestDto;
 import com.baro.jwt_auth.user.dto.response.LoginResponseDto;
@@ -9,9 +9,9 @@ import com.baro.jwt_auth.user.dto.response.SignupResponseDto;
 import com.baro.jwt_auth.user.dto.response.UserRoleUpdateResponseDto;
 import com.baro.jwt_auth.user.entity.UserEntity;
 import com.baro.jwt_auth.user.entity.UserRoleEnum;
-import com.baro.jwt_auth.user.jwt.JwtUtil;
+import com.baro.jwt_auth.security.jwt.JwtUtil;
 import com.baro.jwt_auth.user.repository.UserRepository;
-import com.baro.jwt_auth.user.security.UserDetailsImpl;
+import com.baro.jwt_auth.security.UserDetailsImpl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

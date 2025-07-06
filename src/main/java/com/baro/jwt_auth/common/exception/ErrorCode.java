@@ -1,4 +1,4 @@
-package com.baro.jwt_auth.common.response;
+package com.baro.jwt_auth.common.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

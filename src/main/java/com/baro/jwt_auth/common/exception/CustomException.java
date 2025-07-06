@@ -1,6 +1,5 @@
 package com.baro.jwt_auth.common.exception;
 
-import com.baro.jwt_auth.common.response.ErrorCode;
 import lombok.Getter;
 
 @Getter

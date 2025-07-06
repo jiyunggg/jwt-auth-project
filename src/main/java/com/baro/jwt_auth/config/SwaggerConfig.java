@@ -1,4 +1,4 @@
-package com.baro.jwt_auth.user.config;
+package com.baro.jwt_auth.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
