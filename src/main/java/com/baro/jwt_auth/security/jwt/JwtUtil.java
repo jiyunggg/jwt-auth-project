@@ -1,4 +1,4 @@
-package com.baro.jwt_auth.user.jwt;
+package com.baro.jwt_auth.security.jwt;
 
 import com.baro.jwt_auth.user.entity.UserRoleEnum;
 import io.jsonwebtoken.*;

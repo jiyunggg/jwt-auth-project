@@ -1,4 +1,4 @@
-package com.baro.jwt_auth.user.config;
+package com.baro.jwt_auth.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;

@@ -1,4 +1,4 @@
-package com.baro.jwt_auth.user.security;
+package com.baro.jwt_auth.security;
 
 import com.baro.jwt_auth.common.exception.CustomException;
 import com.baro.jwt_auth.common.response.ErrorCode;

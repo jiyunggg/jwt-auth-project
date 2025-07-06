@@ -6,7 +6,7 @@ import com.baro.jwt_auth.user.dto.request.SignupRequestDto;
 import com.baro.jwt_auth.user.dto.response.LoginResponseDto;
 import com.baro.jwt_auth.user.dto.response.SignupResponseDto;
 import com.baro.jwt_auth.user.dto.response.UserRoleUpdateResponseDto;
-import com.baro.jwt_auth.user.security.UserDetailsImpl;
+import com.baro.jwt_auth.security.UserDetailsImpl;
 import com.baro.jwt_auth.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
