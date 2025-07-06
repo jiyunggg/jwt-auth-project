@@ -1,7 +1,8 @@
-package com.baro.jwt_auth.common.exception;
+package com.baro.jwt_auth.common.exception.handler;
 
-import com.baro.jwt_auth.common.response.ErrorCode;
-import com.baro.jwt_auth.common.response.ResErrorDTO;
+import com.baro.jwt_auth.common.exception.CustomException;
+import com.baro.jwt_auth.common.exception.ErrorCode;
+import com.baro.jwt_auth.common.exception.dto.ResErrorDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

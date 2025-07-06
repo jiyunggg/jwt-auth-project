@@ -1,7 +1,7 @@
 package com.baro.jwt_auth.security;
 
 import com.baro.jwt_auth.common.exception.CustomException;
-import com.baro.jwt_auth.common.response.ErrorCode;
+import com.baro.jwt_auth.common.exception.ErrorCode;
 import com.baro.jwt_auth.user.entity.UserEntity;
 import com.baro.jwt_auth.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

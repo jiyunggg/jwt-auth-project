@@ -1,7 +1,7 @@
 package com.baro.jwt_auth.user.service;
 
 import com.baro.jwt_auth.common.exception.CustomException;
-import com.baro.jwt_auth.common.response.ErrorCode;
+import com.baro.jwt_auth.common.exception.ErrorCode;
 import com.baro.jwt_auth.user.dto.request.LoginRequestDto;
 import com.baro.jwt_auth.user.dto.request.SignupRequestDto;
 import com.baro.jwt_auth.user.dto.response.LoginResponseDto;

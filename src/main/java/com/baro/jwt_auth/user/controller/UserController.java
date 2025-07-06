@@ -1,6 +1,6 @@
 package com.baro.jwt_auth.user.controller;
 
-import com.baro.jwt_auth.common.response.ResErrorDTO;
+import com.baro.jwt_auth.common.exception.dto.ResErrorDTO;
 import com.baro.jwt_auth.user.dto.request.LoginRequestDto;
 import com.baro.jwt_auth.user.dto.request.SignupRequestDto;
 import com.baro.jwt_auth.user.dto.response.LoginResponseDto;
