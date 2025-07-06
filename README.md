@@ -86,11 +86,6 @@ http://3.39.23.19:8080/swagger-ui/index.html
 
 ---
 
-## 💡 GitHub Repository
-[👉 깃허브 바로가기](https://github.com/jiyunggg/jwt-auth-project)
-
----
-
 ## 💡 프로젝트 구조
 ```
 src
