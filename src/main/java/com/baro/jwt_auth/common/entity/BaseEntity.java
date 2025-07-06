@@ -1,4 +1,4 @@
-package com.baro.jwt_auth.user.entity;
+package com.baro.jwt_auth.common.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
