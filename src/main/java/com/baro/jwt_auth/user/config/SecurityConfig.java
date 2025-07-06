@@ -1,6 +1,9 @@
 package com.baro.jwt_auth.user.config;
 
+import com.baro.jwt_auth.common.response.ErrorCode;
+import com.baro.jwt_auth.common.response.ResErrorDTO;
 import com.baro.jwt_auth.user.jwt.JwtAuthFilter;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,8 +27,39 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/signup", "/api/login").permitAll()
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/v3/api-docs.yaml",
+                                "/swagger-resources/**",
+                                "/webjars/**"
+                        ).permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
+                )
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            ErrorCode errorCode = ErrorCode.INVALID_TOKEN;
+
+                            response.setStatus(errorCode.getStatus().value());
+                            response.setContentType("application/json; charset=UTF-8");
+
+                            ResErrorDTO errorBody = ResErrorDTO.of(errorCode.getCode(), errorCode.getMessage());
+                            String json = new ObjectMapper().writeValueAsString(errorBody);
+
+                            response.getWriter().write(json);
+                        })
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            ErrorCode errorCode = ErrorCode.ACCESS_DENIED;
+
+                            response.setStatus(errorCode.getStatus().value());
+                            response.setContentType("application/json; charset=UTF-8");
+
+                            ResErrorDTO errorBody = ResErrorDTO.of(errorCode.getCode(), errorCode.getMessage());
+                            String json = new ObjectMapper().writeValueAsString(errorBody);
+
+                            response.getWriter().write(json);
+                        })
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
